@@ -21,32 +21,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DefaultWooCommerceHttpClient implements WooCommerceHttpClient {
+public class DefaultHttpClient implements HttpClient {
 
     private CloseableHttpClient httpClient;
     private ObjectMapper mapper;
 
-    public DefaultWooCommerceHttpClient() {
+    public DefaultHttpClient() {
         this.httpClient = HttpClientBuilder.create().build();
         this.mapper = new ObjectMapper();
     }
 
     public Object get(String url) {
         HttpGet httpGet = new HttpGet(url);
-        try {
-            HttpResponse httpResponse = this.httpClient.execute(httpGet);
-
-            HttpEntity httpEntity = httpResponse.getEntity();
-            if (httpEntity == null) {
-                throw new NullPointerException();
-            } else {
-                return this.mapper.readValue(httpEntity.getContent(), Object.class);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            httpGet.releaseConnection();
-        }
+        return getEntityAndReleaseConnection(httpGet);
     }
 
     public Object post(String url, Map<String, String> params, Object object) {
@@ -83,7 +70,7 @@ public class DefaultWooCommerceHttpClient implements WooCommerceHttpClient {
 
             HttpEntity httpEntity = httpResponse.getEntity();
             if (httpEntity == null) {
-                throw new NullPointerException();
+                throw new RuntimeException("Error retrieving results from http request");
             } else {
                 return this.mapper.readValue(httpEntity.getContent(), Object.class);
             }

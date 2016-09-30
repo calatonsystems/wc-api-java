@@ -15,9 +15,7 @@ public class WooCommerceClientTest {
 
     @Before
     public void setUp() {
-        WooCommerceConfig config = new WooCommerceConfig(WC_URL, CONSUMER_KEY, CONSUMER_SECRET);
-        WooCommerceHttpClient httpClient = new DefaultWooCommerceHttpClient();
-        this.wooCommerce = new WooCommerceAPI(config, httpClient);
+        this.wooCommerce = new WooCommerceAPI(new WooCommerceConfig(WC_URL, CONSUMER_KEY, CONSUMER_SECRET));
     }
 
     @Test

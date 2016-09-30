@@ -1,6 +1,5 @@
 package com.icoderman.woocommerce;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icoderman.woocommerce.oauth.HttpMethod;
 import com.icoderman.woocommerce.oauth.OAuthConfig;
 import com.icoderman.woocommerce.oauth.OAuthConfigBuilder;
@@ -8,14 +7,17 @@ import com.icoderman.woocommerce.oauth.OAuthSignature;
 
 public class WooCommerceAPI implements WooCommerce {
 
+    private static final String API_GET_ALL_URL_FORMAT = "%s/wp-json/wc/v1/%s";
+    private static final String API_GET_ONE_URL_FORMAT = "%s/wp-json/wc/v1/%s/%d";
+    private static final String API_GET_SECURED_URL_FORMAT = "%s?%s";
 
-    private WooCommerceHttpClient client;
+    private HttpClient client;
     private WooCommerceConfig config;
     private OAuthConfig oauthConfig;
 
-    public WooCommerceAPI(WooCommerceConfig config, WooCommerceHttpClient client) {
+    public WooCommerceAPI(WooCommerceConfig config) {
         this.config = config;
-        this.client = client;
+        this.client = new DefaultHttpClient();
         this.oauthConfig = new OAuthConfigBuilder(config.getConsumerKey(), config.getConsumerSecret()).build();
     }
 
@@ -27,16 +29,20 @@ public class WooCommerceAPI implements WooCommerce {
 
     @Override
     public Object get(WooCommerceEntity entity, int id) {
-        String url = config.getUrl() + "/wp-json/wc/v1" + entity.getSlug() + "/" + id;
-        OAuthSignature signature = getSignature(url, HttpMethod.GET);
-        return client.get(url + "?" + signature.getAsQueryString());
+        String url = String.format(API_GET_ONE_URL_FORMAT, config.getUrl(), entity.getSlug(), id);
+        return getObject(url);
     }
 
     @Override
     public Object getAll(WooCommerceEntity entity) {
-        String url = config.getUrl() + "/wp-json/wc/v1" + entity.getSlug();
+        String url = String.format(API_GET_ALL_URL_FORMAT, config.getUrl(), entity.getSlug());
+        return getObject(url);
+    }
+
+    private Object getObject(String url) {
         OAuthSignature signature = getSignature(url, HttpMethod.GET);
-        return client.get(url + "?" + signature.getAsQueryString());
+        String securedUrl = String.format(API_GET_SECURED_URL_FORMAT, url, signature.getAsQueryString());
+        return client.get(securedUrl);
     }
 
     @Override

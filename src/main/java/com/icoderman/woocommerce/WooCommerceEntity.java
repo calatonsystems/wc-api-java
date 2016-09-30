@@ -1,8 +1,8 @@
 package com.icoderman.woocommerce;
 
 public enum WooCommerceEntity {
-    PRODUCTS("/products"),
-    PRODUCTS_CATEGORIES("/products/categories");
+    PRODUCTS("products"),
+    PRODUCTS_CATEGORIES("products/categories");
 
     private String slug;
 

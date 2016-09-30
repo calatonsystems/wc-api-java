@@ -6,7 +6,6 @@ import java.util.Random;
 
 /**
  * Default implementation of TimestampNonceFactory.
- *
  */
 public class DefaultTimestampNonceFactory implements TimestampNonceFactory {
 
@@ -16,16 +15,16 @@ public class DefaultTimestampNonceFactory implements TimestampNonceFactory {
         timer = new Timer();
     }
 
-	@Override
-	public TimestampNonce getTimestampNonce() {
+    @Override
+    public TimestampNonce getTimestampNonce() {
 
         long timeInSeconds = timer.getMilis() / 1000;
-        
+
         String timestamp = String.valueOf(timeInSeconds);
         String nonce = String.valueOf(timeInSeconds + timer.getRandomInteger());
 
-		return new TimestampNonce(timestamp, nonce);
-	}
+        return new TimestampNonce(timestamp, nonce);
+    }
 
     /**
      * Inner class that uses {@link System} for generating the timestamps.

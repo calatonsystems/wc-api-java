@@ -6,36 +6,36 @@ import java.util.Optional;
 /**
  * OAuth Signature class, containing calculated OAuth properties.
  * Results to be used can be obtained in Header or Query formats.
- * 
+ *
  * Optional values are retrieved as java.util.Optional.
  */
 public interface OAuthSignature {
 
-	String getAsHeader();
-	
-	String getAsQueryString();
+    String getAsHeader();
 
-	Map<String, String> getAsMap();
-	
-	String getSignature();
+    String getAsQueryString();
 
-	String getConsumerKey();
+    Map<String, String> getAsMap();
 
-	String getTimestamp();
+    String getSignature();
 
-	String getNonce();
+    String getConsumerKey();
 
-	String getSignatureMethod();
+    String getTimestamp();
 
-	String getVersion();
+    String getNonce();
 
-	Optional<String> getScope();
+    String getSignatureMethod();
 
-	Optional<String> getCallback();
+    String getVersion();
 
-	Optional<String> getToken();
+    Optional<String> getScope();
 
-	Optional<String> getVerifier();
-	
-	Optional<String> getRealm();
+    Optional<String> getCallback();
+
+    Optional<String> getToken();
+
+    Optional<String> getVerifier();
+
+    Optional<String> getRealm();
 }

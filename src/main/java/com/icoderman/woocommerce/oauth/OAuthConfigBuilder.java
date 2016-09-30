@@ -7,182 +7,183 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * OAuthConfig Builder class. 
+ * OAuthConfig Builder class.
  * Helps creating an unmutable instance OAuthConfig.
  */
 public class OAuthConfigBuilder {
 
-	private static final String CALLBACK_OUT_OF_BAND = "oob";
+    private static final String CALLBACK_OUT_OF_BAND = "oob";
 
-	private SignatureMethod signatureMethod = new HMACSha1SignatureMethod();
-	private TimestampNonceFactory timestampNonceFactory = new DefaultTimestampNonceFactory();
+    private SignatureMethod signatureMethod = new HMACSha1SignatureMethod();
+    private TimestampNonceFactory timestampNonceFactory = new DefaultTimestampNonceFactory();
 
-	private final String consumerKey;
-	private final String consumerSecret;
-	
-// nullable fields:
-	private String tokenKey;
-	private String tokenSecret;
+    private final String consumerKey;
+    private final String consumerSecret;
 
-	private String scope;
-	private String callback;
-	private String verifier;
-	private String realm;
+    // nullable fields:
+    private String tokenKey;
+    private String tokenSecret;
 
-	public OAuthConfigBuilder(String consumerKey, String consumerSecret) {
+    private String scope;
+    private String callback;
+    private String verifier;
+    private String realm;
 
-		Objects.requireNonNull(consumerKey, "ConsumerKey cannot be null");
-		Objects.requireNonNull(consumerSecret, "ConsumerSecret cannot be null");
+    public OAuthConfigBuilder(String consumerKey, String consumerSecret) {
 
-		this.consumerKey = consumerKey;
-		this.consumerSecret = consumerSecret;
-	}
+        Objects.requireNonNull(consumerKey, "ConsumerKey cannot be null");
+        Objects.requireNonNull(consumerSecret, "ConsumerSecret cannot be null");
 
-	public OAuthConfigBuilder withTimestampNonceFactory(TimestampNonceFactory timestampNonceFactory) {
+        this.consumerKey = consumerKey;
+        this.consumerSecret = consumerSecret;
+    }
 
-		Objects.requireNonNull(timestampNonceFactory, "TimestampNonceFactory cannot be null");
-		this.timestampNonceFactory = timestampNonceFactory;
+    public OAuthConfigBuilder withTimestampNonceFactory(TimestampNonceFactory timestampNonceFactory) {
 
-		return this;
-	}
+        Objects.requireNonNull(timestampNonceFactory, "TimestampNonceFactory cannot be null");
+        this.timestampNonceFactory = timestampNonceFactory;
 
-	public OAuthConfigBuilder withSignatureMethod(SignatureMethod signatureMethod) {
+        return this;
+    }
 
-		Objects.requireNonNull(signatureMethod, "SignatureMethod cannot be null");
-		this.signatureMethod = signatureMethod;
+    public OAuthConfigBuilder withSignatureMethod(SignatureMethod signatureMethod) {
 
-		return this;
-	}
+        Objects.requireNonNull(signatureMethod, "SignatureMethod cannot be null");
+        this.signatureMethod = signatureMethod;
 
-	public OAuthConfigBuilder withDefaultCallback() {
+        return this;
+    }
 
-		this.callback = CALLBACK_OUT_OF_BAND;
+    public OAuthConfigBuilder withDefaultCallback() {
 
-		return this;
-	}
+        this.callback = CALLBACK_OUT_OF_BAND;
 
-	public OAuthConfigBuilder setTokenKeys(String tokenKey, String tokenSecret) {
+        return this;
+    }
 
-		if ((tokenKey != null && tokenSecret == null) || (tokenKey == null && tokenSecret != null)) {
-			throw new IllegalArgumentException("Token keys must be both null or not null");
-		}
+    public OAuthConfigBuilder setTokenKeys(String tokenKey, String tokenSecret) {
 
-		this.tokenKey = tokenKey;
-		this.tokenSecret = tokenSecret;
+        if ((tokenKey != null && tokenSecret == null) || (tokenKey == null && tokenSecret != null)) {
+            throw new IllegalArgumentException("Token keys must be both null or not null");
+        }
 
-		return this;
-	}
+        this.tokenKey = tokenKey;
+        this.tokenSecret = tokenSecret;
 
-	public OAuthConfigBuilder setScope(String scope) {
+        return this;
+    }
 
-		this.scope = scope;
+    public OAuthConfigBuilder setScope(String scope) {
 
-		return this;
-	}
+        this.scope = scope;
 
-	public OAuthConfigBuilder setCallback(String callback) {
+        return this;
+    }
 
-		this.callback = callback;
+    public OAuthConfigBuilder setCallback(String callback) {
 
-		return this;
-	}
+        this.callback = callback;
 
-	public OAuthConfigBuilder setVerifier(String verifier) {
+        return this;
+    }
 
-		this.verifier = verifier;
+    public OAuthConfigBuilder setVerifier(String verifier) {
 
-		return this;
-	}
-	
-	public OAuthConfigBuilder setRealm(String realm) {
+        this.verifier = verifier;
 
-		this.realm = realm;
+        return this;
+    }
 
-		return this;
-	}
-	public OAuthConfig build() {
-		return new OAuthConfigDto(this);
-	}
-	
-	private static class OAuthConfigDto implements OAuthConfig {
+    public OAuthConfigBuilder setRealm(String realm) {
 
-	    private final String consumerKey;
-	    private final String consumerSecret;
-	    
-	    private final TimestampNonceFactory timestampNonceFactory;
-	    private final SignatureMethod signatureMethod;
-	    
-	    private final Optional<String> tokenKey;
-	    private final Optional<String> tokenSecret;
+        this.realm = realm;
 
-	    private final Optional<String> scope;
-	    private final Optional<String> callback;
-	    private final Optional<String> verifier;
-	    private final Optional<String> realm;
+        return this;
+    }
 
-	    public OAuthConfigDto(OAuthConfigBuilder builder) {
+    public OAuthConfig build() {
+        return new OAuthConfigDto(this);
+    }
 
-	        this.consumerKey = builder.consumerKey;
-	        this.consumerSecret = builder.consumerSecret;
-	        this.signatureMethod = builder.signatureMethod;
-	        this.timestampNonceFactory = builder.timestampNonceFactory;
-	        
-	        this.tokenKey = Optional.ofNullable(builder.tokenKey);
-	        this.tokenSecret = Optional.ofNullable(builder.tokenSecret);
-	        this.scope = Optional.ofNullable(builder.scope);
-	        this.callback = Optional.ofNullable(builder.callback);
-	        this.verifier = Optional.ofNullable(builder.verifier);
-	        this.realm = Optional.ofNullable(builder.realm);
-	    }
+    private static class OAuthConfigDto implements OAuthConfig {
 
-	    @Override
-	    public String getConsumerKey() {
-	        return consumerKey;
-	    }
+        private final String consumerKey;
+        private final String consumerSecret;
 
-	    @Override
-	    public TimestampNonceFactory getTimestampNonceFactory() {
-	        return timestampNonceFactory;
-	    }
+        private final TimestampNonceFactory timestampNonceFactory;
+        private final SignatureMethod signatureMethod;
 
-	    @Override
-	    public SignatureMethod getSignatureMethod() {
-	        return signatureMethod;
-	    }
+        private final Optional<String> tokenKey;
+        private final Optional<String> tokenSecret;
 
-	    @Override
-	    public Optional<String> getTokenKey() {
-	        return tokenKey;
-	    }
+        private final Optional<String> scope;
+        private final Optional<String> callback;
+        private final Optional<String> verifier;
+        private final Optional<String> realm;
 
-	    @Override
-	    public Optional<String> getScope() {
-	        return scope;
-	    }
+        public OAuthConfigDto(OAuthConfigBuilder builder) {
 
-	    @Override
-	    public Optional<String> getCallback() {
-	        return callback;
-	    }
+            this.consumerKey = builder.consumerKey;
+            this.consumerSecret = builder.consumerSecret;
+            this.signatureMethod = builder.signatureMethod;
+            this.timestampNonceFactory = builder.timestampNonceFactory;
 
-	    @Override
-	    public Optional<String> getVerifier() {
-	        return verifier;
-	    }
-	    
-	    @Override
-	    public String getConsumerSecret() {
-	        return consumerSecret;
-	    }
-	    
-	    @Override
-	    public Optional<String> getTokenSecret() {
-	        return tokenSecret;
-	    }
+            this.tokenKey = Optional.ofNullable(builder.tokenKey);
+            this.tokenSecret = Optional.ofNullable(builder.tokenSecret);
+            this.scope = Optional.ofNullable(builder.scope);
+            this.callback = Optional.ofNullable(builder.callback);
+            this.verifier = Optional.ofNullable(builder.verifier);
+            this.realm = Optional.ofNullable(builder.realm);
+        }
 
-		@Override
-		public Optional<String> getRealm() {
-			return realm;
-		}
-	}
+        @Override
+        public String getConsumerKey() {
+            return consumerKey;
+        }
+
+        @Override
+        public TimestampNonceFactory getTimestampNonceFactory() {
+            return timestampNonceFactory;
+        }
+
+        @Override
+        public SignatureMethod getSignatureMethod() {
+            return signatureMethod;
+        }
+
+        @Override
+        public Optional<String> getTokenKey() {
+            return tokenKey;
+        }
+
+        @Override
+        public Optional<String> getScope() {
+            return scope;
+        }
+
+        @Override
+        public Optional<String> getCallback() {
+            return callback;
+        }
+
+        @Override
+        public Optional<String> getVerifier() {
+            return verifier;
+        }
+
+        @Override
+        public String getConsumerSecret() {
+            return consumerSecret;
+        }
+
+        @Override
+        public Optional<String> getTokenSecret() {
+            return tokenSecret;
+        }
+
+        @Override
+        public Optional<String> getRealm() {
+            return realm;
+        }
+    }
 }

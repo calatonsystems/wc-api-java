@@ -1,4 +1,5 @@
 package com.icoderman.woocommerce.oauth.core;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Collections;
@@ -19,7 +20,7 @@ class OAuthEncoder {
         rules.put("%7E", "~");
         ENCODING_RULES = Collections.unmodifiableMap(rules);
     }
-    
+
     public static String encode(String plain) {
         Objects.requireNonNull(plain, "Cannot encode null object");
         String encoded;
@@ -39,6 +40,6 @@ class OAuthEncoder {
     }
 
     private OAuthEncoder() {
-    	
+
     }
 }

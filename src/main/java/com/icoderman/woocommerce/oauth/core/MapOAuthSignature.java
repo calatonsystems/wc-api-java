@@ -15,13 +15,13 @@ class MapOAuthSignature implements OAuthSignature {
     private final Map<OAuthField, String> oauthParameters;
 
     public MapOAuthSignature(Map<OAuthField, String> oauthParameters) {
-    	
-    	Objects.requireNonNull(oauthParameters);
+
+        Objects.requireNonNull(oauthParameters);
         this.oauthParameters = Collections.unmodifiableMap(oauthParameters);
     }
-    
+
     public Map<OAuthField, String> getOauthParameters() {
-    	return oauthParameters;
+        return oauthParameters;
     }
 
     @Override
@@ -53,7 +53,7 @@ class MapOAuthSignature implements OAuthSignature {
     public String getVersion() {
         return oauthParameters.get(OAuthField.VERSION);
     }
-    
+
     @Override
     public Optional<String> getScope() {
         return Optional.ofNullable(oauthParameters.get(OAuthField.SCOPE));
@@ -63,7 +63,7 @@ class MapOAuthSignature implements OAuthSignature {
     public Optional<String> getCallback() {
         return Optional.ofNullable(oauthParameters.get(OAuthField.CALLBACK));
     }
-    
+
     @Override
     public Optional<String> getToken() {
         return Optional.ofNullable(oauthParameters.get(OAuthField.TOKEN));
@@ -73,11 +73,11 @@ class MapOAuthSignature implements OAuthSignature {
     public Optional<String> getVerifier() {
         return Optional.ofNullable(oauthParameters.get(OAuthField.VERIFIER));
     }
-    
+
     @Override
-	public Optional<String> getRealm() {
-    	return Optional.ofNullable(oauthParameters.get(OAuthField.REALM));
-	}
+    public Optional<String> getRealm() {
+        return Optional.ofNullable(oauthParameters.get(OAuthField.REALM));
+    }
 
     @Override
     public String getAsHeader() {
@@ -91,12 +91,12 @@ class MapOAuthSignature implements OAuthSignature {
 
     @Override
     public String getAsQueryString() {
-    	
-    	String queryString = oauthParameters.entrySet().stream()
+
+        String queryString = oauthParameters.entrySet().stream()
                 .map(entry -> String.format("%s=%s", entry.getKey().fieldName(), entry.getValue()))
                 .collect(Collectors.joining("&"));
 
-    	return queryString;
+        return queryString;
     }
 
     @Override
@@ -108,31 +108,31 @@ class MapOAuthSignature implements OAuthSignature {
 
     @Override
     public String toString() {
-    	return "Authorization: " + getAsHeader();
+        return "Authorization: " + getAsHeader();
     }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((oauthParameters == null) ? 0 : oauthParameters.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((oauthParameters == null) ? 0 : oauthParameters.hashCode());
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		MapOAuthSignature other = (MapOAuthSignature) obj;
-		if (oauthParameters == null) {
-			if (other.oauthParameters != null)
-				return false;
-		} else if (!oauthParameters.equals(other.oauthParameters))
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        MapOAuthSignature other = (MapOAuthSignature) obj;
+        if (oauthParameters == null) {
+            if (other.oauthParameters != null)
+                return false;
+        } else if (!oauthParameters.equals(other.oauthParameters))
+            return false;
+        return true;
+    }
 }

@@ -3,8 +3,8 @@ package com.icoderman.woocommerce.oauth;
 import java.util.Objects;
 
 /**
- * HttpParameter class corresponding to key/value pairs in HTTP requests: query parameters and 
- * www-form/urlencoded parameters. 
+ * HttpParameter class corresponding to key/value pairs in HTTP requests: query parameters and
+ * www-form/urlencoded parameters.
  * This class is used to support the possibility of having multiple valued parameters.
  */
 public class HttpParameter implements Comparable<HttpParameter> {
@@ -13,12 +13,20 @@ public class HttpParameter implements Comparable<HttpParameter> {
     private final String value;
 
     public HttpParameter(String name, String value) {
-        
-    	Objects.requireNonNull(name, "Key cannot be null");
-    	Objects.requireNonNull(value, "Value cannot be null");
-    	
-    	this.name = name;
+
+        Objects.requireNonNull(name, "Key cannot be null");
+        Objects.requireNonNull(value, "Value cannot be null");
+
+        this.name = name;
         this.value = value;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getValue() {
+        return value;
     }
 
     @Override
@@ -35,14 +43,6 @@ public class HttpParameter implements Comparable<HttpParameter> {
 
         final HttpParameter otherParam = (HttpParameter) other;
         return otherParam.getName().equals(name) && otherParam.getValue().equals(value);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getValue() {
-        return value;
     }
 
     @Override

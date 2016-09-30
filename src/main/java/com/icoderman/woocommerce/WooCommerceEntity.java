@@ -17,13 +17,13 @@ public enum WooCommerceEntity {
     TAXES_CLASSES("taxes/classes"),
     WEBHOOKS("webhooks");
 
-    private String value;
+    private String path;
 
-    WooCommerceEntity(String value) {
-        this.value = value;
+    WooCommerceEntity(String path) {
+        this.path = path;
     }
 
-    public String getValue() {
-        return value;
+    public String getPath() {
+        return path;
     }
 }

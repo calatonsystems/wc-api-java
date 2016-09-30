@@ -23,38 +23,38 @@ public class WooCommerceClientTest {
 
     @Test
     public void apiCreateProductTest() {
-        Map<String, String> productInfo = new HashMap<>();
+        Map<String, Object> productInfo = new HashMap<>();
         productInfo.put("name", "Premium Quality");
         productInfo.put("type", "simple");
         productInfo.put("regular_price", "21.99");
         productInfo.put("description", "Pellentesque habitant morbi tristique senectus et netus");
-        Object product = wooCommerce.create(WooCommerceEntity.PRODUCTS.getValue(), productInfo);
+        Map<String, Object> product = wooCommerce.create(WooCommerceEntity.PRODUCTS.getPath(), productInfo);
         Assert.assertNotNull(product);
     }
 
     @Test
     public void apiGetAllProductsTest() {
-        Object products = wooCommerce.getAll(WooCommerceEntity.PRODUCTS.getValue());
+        Object products = wooCommerce.getAll(WooCommerceEntity.PRODUCTS.getPath());
         Assert.assertNotNull(products);
     }
 
     @Test
     public void apiGetProductTest() {
-        Object product = wooCommerce.get(WooCommerceEntity.PRODUCTS.getValue(), 10);
+        Map<String, Object> product = wooCommerce.get(WooCommerceEntity.PRODUCTS.getPath(), 10);
         Assert.assertNotNull(product);
     }
 
     @Test
     public void apiUpdateProductTest() {
-        Map<String, String> productInfo = new HashMap<>();
+        Map<String, Object> productInfo = new HashMap<>();
         productInfo.put("name", "Premium Quality UPDATED");
-        Object product = wooCommerce.update(WooCommerceEntity.PRODUCTS.getValue(), 10, productInfo);
+        Object product = wooCommerce.update(WooCommerceEntity.PRODUCTS.getPath(), 10, productInfo);
         Assert.assertNotNull(product);
     }
 
     @Test
     public void apiDeleteProductTest() {
-        Object product = wooCommerce.delete(WooCommerceEntity.PRODUCTS.getValue(), 10, false);
+        Object product = wooCommerce.delete(WooCommerceEntity.PRODUCTS.getPath(), 10, false);
         Assert.assertNotNull(product);
     }
 }

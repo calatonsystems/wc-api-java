@@ -41,7 +41,7 @@ public class DefaultHttpClient implements HttpClient {
     }
 
     @Override
-    public Object post(String url, Map<String, String> params, Object object) {
+    public Object post(String url, Map<String, String> params, Map<String, Object> object) {
         List<NameValuePair> postParameters = getParametersAsList(params);
         HttpPost httpPost;
         try {
@@ -57,7 +57,7 @@ public class DefaultHttpClient implements HttpClient {
     }
 
     @Override
-    public Object put(String url, Map<String, String> params, Object object) {
+    public Object put(String url, Map<String, String> params, Map<String, Object> object) {
         List<NameValuePair> postParameters = getParametersAsList(params);
         HttpPut httpPut;
         try {
@@ -86,7 +86,7 @@ public class DefaultHttpClient implements HttpClient {
         return getEntityAndReleaseConnection(httpDelete);
     }
 
-    private Object postEntity(Object objectForJson, HttpEntityEnclosingRequestBase httpPost) {
+    private Object postEntity(Map<String, Object> objectForJson, HttpEntityEnclosingRequestBase httpPost) {
         try {
             HttpEntity entity = new ByteArrayEntity(this.mapper.writeValueAsBytes(objectForJson), ContentType.APPLICATION_JSON);
             httpPost.setEntity(entity);

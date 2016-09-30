@@ -5,6 +5,7 @@ import com.icoderman.woocommerce.oauth.OAuthConfig;
 import com.icoderman.woocommerce.oauth.OAuthConfigBuilder;
 import com.icoderman.woocommerce.oauth.OAuthSignature;
 
+import java.util.List;
 import java.util.Map;
 
 public class WooCommerceAPI implements WooCommerce {
@@ -24,40 +25,39 @@ public class WooCommerceAPI implements WooCommerce {
         this.oauthConfig = new OAuthConfigBuilder(config.getConsumerKey(), config.getConsumerSecret()).build();
     }
 
-
     @Override
-    public Object create(String entity, Object object) {
-        String url = String.format(API_URL_FORMAT, config.getUrl(), entity);
+    public Map<String, Object> create(String entityPath, Map<String, Object> object) {
+        String url = String.format(API_URL_FORMAT, config.getUrl(), entityPath);
         OAuthSignature signature = getSignature(url, HttpMethod.POST);
-        return client.post(url, signature.getAsMap(), object);
+        return (Map)client.post(url, signature.getAsMap(), object);
     }
 
     @Override
-    public Object get(String entity, int id) {
+    public Map<String, Object> get(String entity, int id) {
         String url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), entity, id);
-        return getObject(url);
+        return (Map)getObject(url);
     }
 
     @Override
-    public Object getAll(String entity) {
-        String url = String.format(API_URL_FORMAT, config.getUrl(), entity);
-        return getObject(url);
+    public List<Map<String, Object>> getAll(String entityPath) {
+        String url = String.format(API_URL_FORMAT, config.getUrl(), entityPath);
+        return (List)getObject(url);
     }
 
     @Override
-    public Object update(String entity, int id, Object object) {
-        String url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), entity, id);
+    public Map<String, Object>  update(String entityPath, int id, Map<String, Object> object) {
+        String url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), entityPath, id);
         OAuthSignature signature = getSignature(url, HttpMethod.PUT);
-        return client.put(url, signature.getAsMap(), object);
+        return (Map)client.put(url, signature.getAsMap(), object);
     }
 
     @Override
-    public Object delete(String entity, int id, boolean force) {
-        String url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), entity, id);
+    public Map<String, Object> delete(String entityPath, int id) {
+        String url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), entityPath, id);
         OAuthSignature signature = getSignature(url, HttpMethod.DELETE);
         Map<String, String> params = signature.getAsMap();
-        params.put(DELETE_PARAM_FORCE, String.valueOf(force));
-        return client.delete(url, signature.getAsMap());
+        params.put(DELETE_PARAM_FORCE, Boolean.TRUE.toString());
+        return (Map)client.delete(url, signature.getAsMap());
     }
 
     private Object getObject(String url) {

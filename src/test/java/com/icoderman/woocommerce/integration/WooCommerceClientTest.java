@@ -1,8 +1,13 @@
-package com.icoderman.woocommerce;
+package com.icoderman.woocommerce.integration;
 
 
+import com.icoderman.woocommerce.WooCommerce;
+import com.icoderman.woocommerce.WooCommerceAPI;
+import com.icoderman.woocommerce.WooCommerceConfig;
+import com.icoderman.woocommerce.WooCommerceEntity;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -21,6 +26,7 @@ public class WooCommerceClientTest {
         this.wooCommerce = new WooCommerceAPI(new WooCommerceConfig(WC_URL, CONSUMER_KEY, CONSUMER_SECRET));
     }
 
+    @Ignore
     @Test
     public void apiCreateProductTest() {
         Map<String, Object> productInfo = new HashMap<>();
@@ -28,22 +34,25 @@ public class WooCommerceClientTest {
         productInfo.put("type", "simple");
         productInfo.put("regular_price", "21.99");
         productInfo.put("description", "Pellentesque habitant morbi tristique senectus et netus");
-        Map<String, Object> product = wooCommerce.create(WooCommerceEntity.PRODUCTS.getPath(), productInfo);
+        Map product = wooCommerce.create(WooCommerceEntity.PRODUCTS.getPath(), productInfo);
         Assert.assertNotNull(product);
     }
 
+    @Ignore
     @Test
     public void apiGetAllProductsTest() {
         Object products = wooCommerce.getAll(WooCommerceEntity.PRODUCTS.getPath());
         Assert.assertNotNull(products);
     }
 
+    @Ignore
     @Test
     public void apiGetProductTest() {
-        Map<String, Object> product = wooCommerce.get(WooCommerceEntity.PRODUCTS.getPath(), 10);
+        Map product = wooCommerce.get(WooCommerceEntity.PRODUCTS.getPath(), 10);
         Assert.assertNotNull(product);
     }
 
+    @Ignore
     @Test
     public void apiUpdateProductTest() {
         Map<String, Object> productInfo = new HashMap<>();
@@ -52,9 +61,10 @@ public class WooCommerceClientTest {
         Assert.assertNotNull(product);
     }
 
+    @Ignore
     @Test
     public void apiDeleteProductTest() {
-        Object product = wooCommerce.delete(WooCommerceEntity.PRODUCTS.getPath(), 10, false);
+        Object product = wooCommerce.delete(WooCommerceEntity.PRODUCTS.getPath(), 10);
         Assert.assertNotNull(product);
     }
 }

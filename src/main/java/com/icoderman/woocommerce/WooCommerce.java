@@ -15,16 +15,16 @@ public interface WooCommerce {
      * @param object     Map with entity properties and values
      * @return Map with created entity
      */
-    Map<String, Object> create(String entityPath, Map<String, Object> object);
+    Map create(String entityPath, Map<String, Object> object);
 
     /**
      * Retrieves on WooCommerce entity
      *
-     * @param entity WooCommerce entity @see WooCommerceEntity
-     * @param id     id of WooCommerce entity
+     * @param entityPath WooCommerce entity @see WooCommerceEntity
+     * @param id         id of WooCommerce entity
      * @return Retrieved WooCommerce entity
      */
-    Map<String, Object> get(String entity, int id);
+    Map get(String entityPath, int id);
 
     /**
      * Retrieves all WooCommerce entities
@@ -32,7 +32,7 @@ public interface WooCommerce {
      * @param entityPath entity path
      * @return List of retrieved entities
      */
-    List<Map<String, Object>> getAll(String entityPath);
+    List getAll(String entityPath);
 
     /**
      * Updates WooCommerce entity
@@ -42,7 +42,7 @@ public interface WooCommerce {
      * @param object     Map with updated properties
      * @return updated WooCommerce entity
      */
-    Map<String, Object> update(String entityPath, int id, Map<String, Object> object);
+    Map update(String entityPath, int id, Map<String, Object> object);
 
     /**
      * Deletes WooCommerce entity
@@ -51,6 +51,6 @@ public interface WooCommerce {
      * @param id         id of the entity to update
      * @return deleted WooCommerce entity
      */
-    Map<String, Object> delete(String entityPath, int id);
+    Map delete(String entityPath, int id);
 
 }

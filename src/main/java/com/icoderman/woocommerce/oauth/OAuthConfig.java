@@ -5,7 +5,7 @@ import java.util.Optional;
 /**
  * OAuth Config class.
  * Contains OAuth related information, used later to create many new requests signatures.
- *
+ * <p>
  * Optional parameters are returned as java.util.Optional type.
  */
 public interface OAuthConfig {
@@ -14,16 +14,13 @@ public interface OAuthConfig {
 
     SignatureMethod getSignatureMethod();
 
-
     String getConsumerKey();
 
     String getConsumerSecret();
 
-
     Optional<String> getTokenKey();
 
     Optional<String> getTokenSecret();
-
 
     Optional<String> getCallback();
 

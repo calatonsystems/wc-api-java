@@ -35,13 +35,19 @@ public class DefaultHttpClient implements HttpClient {
     }
 
     @Override
-    public Object get(String url) {
+    public Map get(String url) {
         HttpGet httpGet = new HttpGet(url);
-        return getEntityAndReleaseConnection(httpGet);
+        return getEntityAndReleaseConnection(httpGet, Map.class);
     }
 
     @Override
-    public Object post(String url, Map<String, String> params, Map<String, Object> object) {
+    public List getAll(String url) {
+        HttpGet httpGet = new HttpGet(url);
+        return getEntityAndReleaseConnection(httpGet, List.class);
+    }
+
+    @Override
+    public Map post(String url, Map<String, String> params, Map<String, Object> object) {
         List<NameValuePair> postParameters = getParametersAsList(params);
         HttpPost httpPost;
         try {
@@ -49,15 +55,14 @@ public class DefaultHttpClient implements HttpClient {
             uriBuilder.addParameters(postParameters);
             httpPost = new HttpPost(uriBuilder.build());
             httpPost.setHeader("Content-Type", "application/json");
+            return postEntity(object, httpPost);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
-
-        return postEntity(object, httpPost);
     }
 
     @Override
-    public Object put(String url, Map<String, String> params, Map<String, Object> object) {
+    public Map put(String url, Map<String, String> params, Map<String, Object> object) {
         List<NameValuePair> postParameters = getParametersAsList(params);
         HttpPut httpPut;
         try {
@@ -65,33 +70,31 @@ public class DefaultHttpClient implements HttpClient {
             uriBuilder.addParameters(postParameters);
             httpPut = new HttpPut(uriBuilder.build());
             httpPut.setHeader("Content-Type", "application/json");
+            return postEntity(object, httpPut);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
-
-        return postEntity(object, httpPut);
     }
 
     @Override
-    public Object delete(String url, Map<String, String> params) {
+    public Map delete(String url, Map<String, String> params) {
         List<NameValuePair> postParameters = getParametersAsList(params);
         HttpDelete httpDelete;
         try {
             URIBuilder uriBuilder = new URIBuilder(url);
             uriBuilder.addParameters(postParameters);
             httpDelete = new HttpDelete(uriBuilder.build());
+            return getEntityAndReleaseConnection(httpDelete, Map.class);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
-        return getEntityAndReleaseConnection(httpDelete);
     }
 
-    private Object postEntity(Map<String, Object> objectForJson, HttpEntityEnclosingRequestBase httpPost) {
+    private Map postEntity(Map<String, Object> objectForJson, HttpEntityEnclosingRequestBase httpPost) {
         try {
             HttpEntity entity = new ByteArrayEntity(this.mapper.writeValueAsBytes(objectForJson), ContentType.APPLICATION_JSON);
             httpPost.setEntity(entity);
-
-            return getEntityAndReleaseConnection(httpPost);
+            return getEntityAndReleaseConnection(httpPost, Map.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -107,16 +110,14 @@ public class DefaultHttpClient implements HttpClient {
         return postParameters;
     }
 
-    private Object getEntityAndReleaseConnection(HttpRequestBase httpRequest) {
+    private <T> T getEntityAndReleaseConnection(HttpRequestBase httpRequest, Class<T> objectClass) {
         try {
             HttpResponse httpResponse = this.httpClient.execute(httpRequest);
-
             HttpEntity httpEntity = httpResponse.getEntity();
             if (httpEntity == null) {
                 throw new RuntimeException("Error retrieving results from http request");
-            } else {
-                return this.mapper.readValue(httpEntity.getContent(), Object.class);
             }
+            return this.mapper.readValue(httpEntity.getContent(), objectClass);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {

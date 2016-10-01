@@ -26,6 +26,7 @@ public interface TimestampNonceFactory {
 
         /**
          * Retrieves a GMT timestamp (in seconds)
+         * @return timestamp
          */
         public String getTimestampInSeconds() {
             return timestamp;
@@ -33,6 +34,7 @@ public interface TimestampNonceFactory {
 
         /**
          * Returns a nonce (unique value for each request)
+         * @return nonce
          */
         public String getNonce() {
             return nonce;

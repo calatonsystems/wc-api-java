@@ -1,4 +1,4 @@
-# WooCommerce API - Java Client
+# WooCommerce API Java Wrapper
 Java wrapper for WooCommerce REST API.
 
 ## Usage

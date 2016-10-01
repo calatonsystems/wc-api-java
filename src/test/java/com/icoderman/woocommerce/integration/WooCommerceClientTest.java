@@ -1,10 +1,10 @@
 package com.icoderman.woocommerce.integration;
 
 
+import com.icoderman.woocommerce.EndpointBaseType;
 import com.icoderman.woocommerce.WooCommerce;
 import com.icoderman.woocommerce.WooCommerceAPI;
 import com.icoderman.woocommerce.WooCommerceConfig;
-import com.icoderman.woocommerce.WooCommerceEntity;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -23,7 +23,7 @@ public class WooCommerceClientTest {
 
     @Before
     public void setUp() {
-        this.wooCommerce = new WooCommerceAPI(new WooCommerceConfig(WC_URL, CONSUMER_KEY, CONSUMER_SECRET));
+        wooCommerce = new WooCommerceAPI(new WooCommerceConfig(WC_URL, CONSUMER_KEY, CONSUMER_SECRET));
     }
 
     @Ignore
@@ -34,21 +34,21 @@ public class WooCommerceClientTest {
         productInfo.put("type", "simple");
         productInfo.put("regular_price", "21.99");
         productInfo.put("description", "Pellentesque habitant morbi tristique senectus et netus");
-        Map product = wooCommerce.create(WooCommerceEntity.PRODUCTS.getPath(), productInfo);
+        Map product = wooCommerce.create(EndpointBaseType.PRODUCTS.getValue(), productInfo);
         Assert.assertNotNull(product);
     }
 
     @Ignore
     @Test
     public void apiGetAllProductsTest() {
-        Object products = wooCommerce.getAll(WooCommerceEntity.PRODUCTS.getPath());
+        Object products = wooCommerce.getAll(EndpointBaseType.PRODUCTS.getValue());
         Assert.assertNotNull(products);
     }
 
     @Ignore
     @Test
     public void apiGetProductTest() {
-        Map product = wooCommerce.get(WooCommerceEntity.PRODUCTS.getPath(), 10);
+        Map product = wooCommerce.get(EndpointBaseType.PRODUCTS.getValue(), 10);
         Assert.assertNotNull(product);
     }
 
@@ -57,14 +57,14 @@ public class WooCommerceClientTest {
     public void apiUpdateProductTest() {
         Map<String, Object> productInfo = new HashMap<>();
         productInfo.put("name", "Premium Quality UPDATED");
-        Object product = wooCommerce.update(WooCommerceEntity.PRODUCTS.getPath(), 10, productInfo);
+        Map product = wooCommerce.update(EndpointBaseType.PRODUCTS.getValue(), 10, productInfo);
         Assert.assertNotNull(product);
     }
 
     @Ignore
     @Test
     public void apiDeleteProductTest() {
-        Object product = wooCommerce.delete(WooCommerceEntity.PRODUCTS.getPath(), 10);
+        Map product = wooCommerce.delete(EndpointBaseType.PRODUCTS.getValue(), 10);
         Assert.assertNotNull(product);
     }
 }

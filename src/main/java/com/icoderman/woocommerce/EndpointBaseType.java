@@ -1,6 +1,6 @@
 package com.icoderman.woocommerce;
 
-public enum WooCommerceEntity {
+public enum EndpointBaseType {
 
     COUPONS("coupons"),
     CUSTOMERS("customers"),
@@ -17,13 +17,13 @@ public enum WooCommerceEntity {
     TAXES_CLASSES("taxes/classes"),
     WEBHOOKS("webhooks");
 
-    private String path;
+    private String value;
 
-    WooCommerceEntity(String path) {
-        this.path = path;
+    EndpointBaseType(String value) {
+        this.value = value;
     }
 
-    public String getPath() {
-        return path;
+    public String getValue() {
+        return value;
     }
 }

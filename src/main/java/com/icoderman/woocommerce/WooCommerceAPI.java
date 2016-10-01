@@ -26,38 +26,38 @@ public class WooCommerceAPI implements WooCommerce {
     }
 
     @Override
-    public Map create(String entityPath, Map<String, Object> object) {
-        String url = String.format(API_URL_FORMAT, config.getUrl(), entityPath);
+    public Map create(String endpointBase, Map<String, Object> object) {
+        String url = String.format(API_URL_FORMAT, config.getUrl(), endpointBase);
         OAuthSignature signature = getSignature(url, HttpMethod.POST);
         return client.post(url, signature.getAsMap(), object);
     }
 
     @Override
-    public Map get(String entityPath, int id) {
-        String url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), entityPath, id);
+    public Map get(String endpointBase, int id) {
+        String url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), endpointBase, id);
         OAuthSignature signature = getSignature(url, HttpMethod.GET);
         String securedUrl = String.format(URL_SECURED_FORMAT, url, signature.getAsQueryString());
         return client.get(securedUrl);
     }
 
     @Override
-    public List getAll(String entityPath) {
-        String url = String.format(API_URL_FORMAT, config.getUrl(), entityPath);
+    public List getAll(String endpointBase) {
+        String url = String.format(API_URL_FORMAT, config.getUrl(), endpointBase);
         OAuthSignature signature = getSignature(url, HttpMethod.GET);
         String securedUrl = String.format(URL_SECURED_FORMAT, url, signature.getAsQueryString());
         return client.getAll(securedUrl);
     }
 
     @Override
-    public Map update(String entityPath, int id, Map<String, Object> object) {
-        String url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), entityPath, id);
+    public Map update(String endpointBase, int id, Map<String, Object> object) {
+        String url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), endpointBase, id);
         OAuthSignature signature = getSignature(url, HttpMethod.PUT);
         return client.put(url, signature.getAsMap(), object);
     }
 
     @Override
-    public Map delete(String entityPath, int id) {
-        String url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), entityPath, id);
+    public Map delete(String endpointBase, int id) {
+        String url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), endpointBase, id);
         OAuthSignature signature = getSignature(url, HttpMethod.DELETE);
         Map<String, String> params = signature.getAsMap();
         params.put(DELETE_PARAM_FORCE, Boolean.TRUE.toString());

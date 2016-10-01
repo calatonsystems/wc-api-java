@@ -11,46 +11,46 @@ public interface WooCommerce {
     /**
      * Creates WooCommerce entity
      *
-     * @param entityPath WooCommerce entity @see WooCommerceEntity
-     * @param object     Map with entity properties and values
+     * @param endpointBase API endpoint base @see EndpointBaseType
+     * @param object       Map with entity properties and values
      * @return Map with created entity
      */
-    Map create(String entityPath, Map<String, Object> object);
+    Map create(String endpointBase, Map<String, Object> object);
 
     /**
      * Retrieves on WooCommerce entity
      *
-     * @param entityPath WooCommerce entity @see WooCommerceEntity
-     * @param id         id of WooCommerce entity
+     * @param endpointBase API endpoint base @see EndpointBaseType
+     * @param id           id of WooCommerce entity
      * @return Retrieved WooCommerce entity
      */
-    Map get(String entityPath, int id);
+    Map get(String endpointBase, int id);
 
     /**
      * Retrieves all WooCommerce entities
      *
-     * @param entityPath entity path
+     * @param endpointBase API endpoint base @see EndpointBaseType
      * @return List of retrieved entities
      */
-    List getAll(String entityPath);
+    List getAll(String endpointBase);
 
     /**
      * Updates WooCommerce entity
      *
-     * @param entityPath entity path
-     * @param id         id of the entity to update
-     * @param object     Map with updated properties
+     * @param endpointBase API endpoint base @see EndpointBaseType
+     * @param id           id of the entity to update
+     * @param object       Map with updated properties
      * @return updated WooCommerce entity
      */
-    Map update(String entityPath, int id, Map<String, Object> object);
+    Map update(String endpointBase, int id, Map<String, Object> object);
 
     /**
      * Deletes WooCommerce entity
      *
-     * @param entityPath entity path
-     * @param id         id of the entity to update
+     * @param endpointBase API endpoint base @see EndpointBaseType
+     * @param id           id of the entity to update
      * @return deleted WooCommerce entity
      */
-    Map delete(String entityPath, int id);
+    Map delete(String endpointBase, int id);
 
 }

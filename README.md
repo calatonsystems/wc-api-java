@@ -1,6 +1,16 @@
 # WooCommerce API Java Wrapper
 Java wrapper for WooCommerce REST API.
 
+## Setup
+wc-api-java is available on maven central:
+```xml
+<dependency>
+    <groupId>com.icoderman</groupId>
+    <artifactId>wc-api-java</artifactId>
+    <version>1.0</version>
+</dependency>
+```
+
 ## Usage
 
 ```java

@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.icoderman.woocommerce</groupId>
+    <groupId>com.icoderman</groupId>
     <artifactId>wc-api-java</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -30,9 +30,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/icoderman/wc-api-java.git</connection>
-        <developerConnection>scm:git:ssh://github.com:icoderman/wc-api-java.git</developerConnection>
-        <url>https://github.com/icoderman/wc-api-java/tree/master</url>
+        <connection>scm:git:git@github.com:icoderman/wc-api-java.git</connection>
+        <developerConnection>scm:git:git@github.com:icoderman/wc-api-java.git</developerConnection>
+        <url>git@github.com/icoderman/wc-api-java.git</url>
     </scm>
 
     <distributionManagement>

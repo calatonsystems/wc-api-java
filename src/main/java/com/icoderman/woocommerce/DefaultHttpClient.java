@@ -112,12 +112,12 @@ public class DefaultHttpClient implements HttpClient {
 
     private <T> T getEntityAndReleaseConnection(HttpRequestBase httpRequest, Class<T> objectClass) {
         try {
-            HttpResponse httpResponse = this.httpClient.execute(httpRequest);
+            HttpResponse httpResponse = httpClient.execute(httpRequest);
             HttpEntity httpEntity = httpResponse.getEntity();
             if (httpEntity == null) {
                 throw new RuntimeException("Error retrieving results from http request");
             }
-            return this.mapper.readValue(httpEntity.getContent(), objectClass);
+            return mapper.readValue(httpEntity.getContent(), objectClass);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {

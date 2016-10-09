@@ -61,10 +61,10 @@ public class WooCommerceAPI implements WooCommerce {
         OAuthSignature signature = getSignature(url, HttpMethod.DELETE);
         Map<String, String> params = signature.getAsMap();
         params.put(DELETE_PARAM_FORCE, Boolean.TRUE.toString());
-        return (Map) client.delete(url, signature.getAsMap());
+        return client.delete(url, signature.getAsMap());
     }
 
     private OAuthSignature getSignature(String url, HttpMethod httpMethod) {
-        return this.oauthConfig.buildSignature(httpMethod, url).create();
+        return oauthConfig.buildSignature(httpMethod, url).create();
     }
 }

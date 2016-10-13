@@ -1,5 +1,8 @@
 package com.icoderman.woocommerce;
 
+/**
+ * Enum with basic WooCommerce endpoints
+ */
 public enum EndpointBaseType {
 
     COUPONS("coupons"),

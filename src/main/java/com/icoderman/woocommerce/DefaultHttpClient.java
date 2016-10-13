@@ -117,7 +117,11 @@ public class DefaultHttpClient implements HttpClient {
             if (httpEntity == null) {
                 throw new RuntimeException("Error retrieving results from http request");
             }
-            return mapper.readValue(httpEntity.getContent(), objectClass);
+            Object result = mapper.readValue(httpEntity.getContent(), Object.class);
+            if (objectClass.isInstance(result)) {
+                return (T)result;
+            }
+            throw new RuntimeException("Can't parse retrieved object: " + result.toString());
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {

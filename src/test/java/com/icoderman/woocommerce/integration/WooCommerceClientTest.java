@@ -4,7 +4,7 @@ package com.icoderman.woocommerce.integration;
 import com.icoderman.woocommerce.EndpointBaseType;
 import com.icoderman.woocommerce.WooCommerce;
 import com.icoderman.woocommerce.WooCommerceAPI;
-import com.icoderman.woocommerce.WooCommerceConfig;
+import com.icoderman.woocommerce.oauth.OAuthConfig;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -23,7 +23,7 @@ public class WooCommerceClientTest {
 
     @Before
     public void setUp() {
-        wooCommerce = new WooCommerceAPI(new WooCommerceConfig(WC_URL, CONSUMER_KEY, CONSUMER_SECRET));
+        wooCommerce = new WooCommerceAPI(new OAuthConfig(WC_URL, CONSUMER_KEY, CONSUMER_SECRET));
     }
 
     @Ignore

@@ -12,9 +12,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * WooCommerce specific OAuth signature generator
@@ -98,10 +98,17 @@ public class OAuthSignature {
         return String.format(BASE_SIGNATURE_FORMAT, method, requestURL, paramsString);
     }
 
-    private static String mapToString(Map<String, String> paramsMap, String keyValueDelimiter, String paramsDelimiter) {
-        return paramsMap.entrySet().stream()
-                .map(entry -> entry.getKey() + keyValueDelimiter + entry.getValue())
-                .collect(Collectors.joining(paramsDelimiter));
+    private static String mapToString(Map<String, String> paramsMap, String keyValueDelimiter, String paramsDelimiter) 
+    {
+    	StringBuilder mapInString = new StringBuilder();
+    	for(Entry<String, String> entrySet:paramsMap.entrySet())
+    	{
+    		mapInString.append(entrySet.getKey()).append(keyValueDelimiter).append(entrySet.getValue()).append(paramsDelimiter);
+    	}
+    	mapInString.delete(mapInString.length()-paramsDelimiter.length(), mapInString.length());	
+    	
+    	System.out.println(mapInString.toString());
+    	return mapInString.toString();
     }
 
     private static Map<String, String> percentEncodeParameters(Map<String, String> parameters) {

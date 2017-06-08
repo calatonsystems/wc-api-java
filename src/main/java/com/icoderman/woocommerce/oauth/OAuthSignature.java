@@ -107,7 +107,6 @@ public class OAuthSignature {
     	}
     	mapInString.delete(mapInString.length()-paramsDelimiter.length(), mapInString.length());	
     	
-    	System.out.println(mapInString.toString());
     	return mapInString.toString();
     }
 

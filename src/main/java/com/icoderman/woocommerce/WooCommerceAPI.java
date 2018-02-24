@@ -35,9 +35,9 @@ public class WooCommerceAPI implements WooCommerce {
     }
 
     @Override
-    public List getAll(String endpointBase) {
+    public List getAll(String endpointBase, Map<String, String> params) {
         String url = String.format(API_URL_FORMAT, config.getUrl(), endpointBase);
-        String signature = OAuthSignature.getAsQueryString(config, url, HttpMethod.GET);
+        String signature = OAuthSignature.getAsQueryString(config, url, HttpMethod.GET, params);
         String securedUrl = String.format(URL_SECURED_FORMAT, url, signature);
         return client.getAll(securedUrl);
     }

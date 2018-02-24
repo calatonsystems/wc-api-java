@@ -1,5 +1,6 @@
 package com.icoderman.woocommerce;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -27,12 +28,23 @@ public interface WooCommerce {
     Map get(String endpointBase, int id);
 
     /**
+     * Retrieves all WooCommerce entities with request parameters
+     *
+     * @param endpointBase API endpoint base @see EndpointBaseType
+     * @param params additional request params
+     * @return List of retrieved entities
+     */
+    List getAll(String endpointBase, Map<String, String> params);
+
+    /**
      * Retrieves all WooCommerce entities
      *
      * @param endpointBase API endpoint base @see EndpointBaseType
      * @return List of retrieved entities
      */
-    List getAll(String endpointBase);
+    default List getAll(String endpointBase) {
+        return getAll(endpointBase, Collections.emptyMap());
+    }
 
     /**
      * Updates WooCommerce entity

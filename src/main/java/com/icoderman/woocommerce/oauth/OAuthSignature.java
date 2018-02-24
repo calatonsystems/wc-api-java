@@ -29,36 +29,44 @@ public class OAuthSignature {
 
     private OAuthSignature() {}
 
-    public static Map<String, String> getAsMap(OAuthConfig config, String endpoint, HttpMethod httpMethod) {
+    public static Map<String, String> getAsMap(OAuthConfig config, String endpoint, HttpMethod httpMethod, Map<String, String> params) {
         if (config == null || endpoint == null || httpMethod == null) {
             return Collections.emptyMap();
         }
-        Map<String,String> params = new HashMap<>();
-        params.put(OAuthHeader.OAUTH_CONSUMER_KEY.getValue(), config.getConsumerKey());
-        params.put(OAuthHeader.OAUTH_TIMESTAMP.getValue(), String.valueOf(System.currentTimeMillis() / 1000L));
-        params.put(OAuthHeader.OAUTH_NONCE.getValue(), UUID.randomUUID().toString());
-        params.put(OAuthHeader.OAUTH_SIGNATURE_METHOD.getValue(), SIGNATURE_METHOD_HMAC_SHA256);
+        Map<String,String> authParams = new HashMap<>();
+        authParams.put(OAuthHeader.OAUTH_CONSUMER_KEY.getValue(), config.getConsumerKey());
+        authParams.put(OAuthHeader.OAUTH_TIMESTAMP.getValue(), String.valueOf(System.currentTimeMillis() / 1000L));
+        authParams.put(OAuthHeader.OAUTH_NONCE.getValue(), UUID.randomUUID().toString());
+        authParams.put(OAuthHeader.OAUTH_SIGNATURE_METHOD.getValue(), SIGNATURE_METHOD_HMAC_SHA256);
+        authParams.putAll(params);
 
         // WooCommerce specified param
         if (HttpMethod.DELETE.equals(httpMethod)) {
-            params.put(DELETE_PARAM_FORCE, Boolean.TRUE.toString());
+            authParams.put(DELETE_PARAM_FORCE, Boolean.TRUE.toString());
         }
-        String oAuthSignature = generateOAuthSignature(config.getConsumerSecret(), endpoint, httpMethod, params);
-        params.put(OAuthHeader.OAUTH_SIGNATURE.getValue(), oAuthSignature);
-        return params;
+        String oAuthSignature = generateOAuthSignature(config.getConsumerSecret(), endpoint, httpMethod, authParams);
+        authParams.put(OAuthHeader.OAUTH_SIGNATURE.getValue(), oAuthSignature);
+        return authParams;
     }
 
-    public static String getAsQueryString(OAuthConfig config, String endpoint, HttpMethod httpMethod) {
+    public static Map<String, String> getAsMap(OAuthConfig config, String endpoint, HttpMethod httpMethod) {
+        return getAsMap(config, endpoint, httpMethod, Collections.emptyMap());
+    }
+
+    public static String getAsQueryString(OAuthConfig config, String endpoint, HttpMethod httpMethod, Map<String, String> params) {
         if (config == null || endpoint == null || httpMethod == null) {
             return "";
         }
-        Map<String, String> oauthParameters = getAsMap(config, endpoint, httpMethod);
+        Map<String, String> oauthParameters = getAsMap(config, endpoint, httpMethod, params);
         String encodedSignature = oauthParameters.get(OAuthHeader.OAUTH_SIGNATURE.getValue())
                 .replace(SpecialSymbol.PLUS.getPlain(), SpecialSymbol.PLUS.getEncoded());
         oauthParameters.put(OAuthHeader.OAUTH_SIGNATURE.getValue(), encodedSignature);
         return mapToString(oauthParameters, SpecialSymbol.EQUAL.getPlain(), SpecialSymbol.AMP.getPlain());
     }
 
+    public static String getAsQueryString(OAuthConfig config, String endpoint, HttpMethod httpMethod) {
+        return getAsQueryString(config, endpoint, httpMethod, Collections.emptyMap());
+    }
 
     private static String generateOAuthSignature(String customerSecret, String endpoint, HttpMethod httpMethod, Map<String, String> parameters) {
         String signatureBaseString = getSignatureBaseString(endpoint, httpMethod.name(), parameters);

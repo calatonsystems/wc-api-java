@@ -15,9 +15,9 @@ import java.util.Map;
 
 public class WooCommerceClientTest {
 
-    private static final String CONSUMER_KEY = "ck_700a11f6fa9fb498a58dd3c252d8e52e93f3f073";
-    private static final String CONSUMER_SECRET = "cs_a2117031fd9283f995e9822f6a739e65486a0528";
-    private static final String WC_URL = "http://localhost:32789";
+    private static final String CONSUMER_KEY = "ck_d35e7be7cc695d87f23490729dd80e173f88c8f5";
+    private static final String CONSUMER_SECRET = "cs_53a835760712ebf0c8bcf2a21197af4b2323a052";
+    private static final String WC_URL = "http://localhost/index.php";
 
     private WooCommerce wooCommerce;
 
@@ -41,14 +41,17 @@ public class WooCommerceClientTest {
     @Ignore
     @Test
     public void apiGetAllProductsTest() {
-        Object products = wooCommerce.getAll(EndpointBaseType.PRODUCTS.getValue());
+        Map<String, String> params = new HashMap<>();
+        params.put("per_page","100");
+        params.put("offset","0");
+        Object products = wooCommerce.getAll(EndpointBaseType.PRODUCTS.getValue(), params);
         Assert.assertNotNull(products);
     }
 
     @Ignore
     @Test
     public void apiGetProductTest() {
-        Map product = wooCommerce.get(EndpointBaseType.PRODUCTS.getValue(), 10);
+        Map product = wooCommerce.get(EndpointBaseType.PRODUCTS.getValue(), 79);
         Assert.assertNotNull(product);
     }
 

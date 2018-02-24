@@ -26,6 +26,9 @@ import java.util.Map;
 
 public class DefaultHttpClient implements HttpClient {
 
+    private static final String CONTENT_TYPE = "Content-Type";
+    private static final String APPLICATION_JSON = "application/json";
+
     private CloseableHttpClient httpClient;
     private ObjectMapper mapper;
 
@@ -54,7 +57,7 @@ public class DefaultHttpClient implements HttpClient {
             URIBuilder uriBuilder = new URIBuilder(url);
             uriBuilder.addParameters(postParameters);
             httpPost = new HttpPost(uriBuilder.build());
-            httpPost.setHeader("Content-Type", "application/json");
+            httpPost.setHeader(CONTENT_TYPE, APPLICATION_JSON);
             return postEntity(object, httpPost);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
@@ -69,7 +72,7 @@ public class DefaultHttpClient implements HttpClient {
             URIBuilder uriBuilder = new URIBuilder(url);
             uriBuilder.addParameters(postParameters);
             httpPut = new HttpPut(uriBuilder.build());
-            httpPut.setHeader("Content-Type", "application/json");
+            httpPut.setHeader(CONTENT_TYPE, APPLICATION_JSON);
             return postEntity(object, httpPut);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
@@ -119,7 +122,7 @@ public class DefaultHttpClient implements HttpClient {
             }
             Object result = mapper.readValue(httpEntity.getContent(), Object.class);
             if (objectClass.isInstance(result)) {
-                return (T)result;
+                return objectClass.cast(result);
             }
             throw new RuntimeException("Can't parse retrieved object: " + result.toString());
         } catch (IOException e) {

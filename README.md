@@ -7,11 +7,11 @@ with the OAuth 1.0a authentication over the HTTP protocol.
 ## Setup
 wc-api-java is available on maven central:
 ```xml
-<dependency>
-    <groupId>com.icoderman</groupId>
-    <artifactId>wc-api-java</artifactId>
-    <version>1.2</version>
-</dependency>
+    <dependency>
+        <groupId>com.icoderman</groupId>
+        <artifactId>wc-api-java</artifactId>
+        <version>1.2</version>
+    </dependency>
 ```
 
 ## Usage

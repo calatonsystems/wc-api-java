@@ -1,5 +1,6 @@
 # WooCommerce API Java Wrapper
 [![Build Status](https://travis-ci.org/icoderman/wc-api-java.svg?branch=master)](https://travis-ci.org/icoderman/wc-api-java)
+
 Java wrapper for WooCommerce REST API. The library supports the latest versions of WooCommerce REST API only
 with the OAuth 1.0a authentication over the HTTP protocol.
 

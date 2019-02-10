@@ -10,7 +10,7 @@ wc-api-java is available on maven central:
     <dependency>
         <groupId>com.icoderman</groupId>
         <artifactId>wc-api-java</artifactId>
-        <version>1.2</version>
+        <version>1.3</version>
     </dependency>
 ```
 

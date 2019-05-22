@@ -1,7 +1,14 @@
 package com.icoderman.woocommerce;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.net.ssl.SSLContext;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -12,17 +19,17 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.ssl.SSLContexts;
+import org.apache.http.ssl.TrustStrategy;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class DefaultHttpClient implements HttpClient {
 
@@ -33,11 +40,47 @@ public class DefaultHttpClient implements HttpClient {
     private ObjectMapper mapper;
 
     public DefaultHttpClient() {
-        this.httpClient = HttpClientBuilder.create().build();
-        this.mapper = new ObjectMapper();
+    	super();
+    	createDefaultHttpClient(true);
     }
 
-    @Override
+	public DefaultHttpClient(Boolean sslTrusted) {
+		super();
+		createDefaultHttpClient(true);
+ 	}
+
+
+    private void createDefaultHttpClient(Boolean sslTrusted) {
+    	
+       	SSLContext sslContext = getSslContext();
+
+       	if (sslTrusted)
+            this.httpClient = HttpClientBuilder.create().setSSLContext(sslContext)
+    		.build();
+       	else
+	        this.httpClient = HttpClientBuilder.create().setSSLContext(sslContext)
+	        		.build();
+        
+        this.mapper = new ObjectMapper();
+	}
+
+	private SSLContext getSslContext() {
+		TrustStrategy acceptingTrustStrategy = new TrustStrategy() {
+    	    public boolean isTrusted(X509Certificate[] certificate, String authType) {
+    	        return true;
+    	    }
+    	};
+
+    	SSLContext sslContext = null;
+    	try {
+    	    sslContext = SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy).build();
+    	} catch (Exception e) {
+    	    // Handle error
+    	}
+		return sslContext;
+	}
+
+	@Override
     public Map get(String url) {
         HttpGet httpGet = new HttpGet(url);
         return getEntityAndReleaseConnection(httpGet, Map.class);

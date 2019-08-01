@@ -9,6 +9,7 @@ import java.util.Map;
 public class WooCommerceAPI implements WooCommerce {
 
     private static final String API_URL_FORMAT = "%s/wp-json/wc/%s/%s";
+    private static final String API_URL_BATCH_FORMAT = "%s/wp-json/wc/%s/%s/batch";
     private static final String API_URL_ONE_ENTITY_FORMAT = "%s/wp-json/wc/%s/%s/%d";
     private static final String URL_SECURED_FORMAT = "%s?%s";
 
@@ -56,4 +57,11 @@ public class WooCommerceAPI implements WooCommerce {
         Map<String, String> params = OAuthSignature.getAsMap(config, url, HttpMethod.DELETE);
         return client.delete(url, params);
     }
+
+    @Override
+    public Map batch(String endpointBase, Map<String, Object> object) {
+        String url = String.format(API_URL_BATCH_FORMAT, config.getUrl(), apiVersion, endpointBase);
+        return client.post(url, OAuthSignature.getAsMap(config, url, HttpMethod.POST), object);
+    }
+
 }

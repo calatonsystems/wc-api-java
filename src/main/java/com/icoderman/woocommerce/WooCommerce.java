@@ -65,4 +65,13 @@ public interface WooCommerce {
      */
     Map delete(String endpointBase, int id);
 
+    /**
+     * Makes batch operations on WooCommerce entities
+     *
+     * @param endpointBase API endpoint base @see EndpointBaseType
+     * @param object       Map with lists of entities
+     * @return response Map with WooCommerce entities implicated
+     */
+    Map batch(String endpointBase, Map<String, Object> object);
+
 }

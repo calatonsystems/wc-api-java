@@ -11,7 +11,9 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class WooCommerceClientTest {
@@ -71,4 +73,42 @@ public class WooCommerceClientTest {
         Map product = wooCommerce.delete(EndpointBaseType.PRODUCTS.getValue(), 10);
         Assert.assertNotNull(product);
     }
+
+    @Ignore
+    @Test
+    public void apiBatchVariationTest() {
+        Integer productId = 20072;
+
+        List<Map<String, Object>> variations = new ArrayList<>();
+        for (int variationId = 20073; variationId <= 20081; variationId++){
+            Map<String, Object> variation = new HashMap<>();
+            variation.put("id", variationId+"");
+            variation.put("regular_price", "10");
+            variations.add(variation);
+        }
+
+        Map<String, Object> reqOptions = new HashMap<>();
+        reqOptions.put("update", variations);
+
+        Map response = wooCommerce.batch(String.format("products/%d/variations", productId), reqOptions);
+        Assert.assertNotNull(response);
+    }
+
+    @Ignore
+    @Test
+    public void apiBatchProductTest() {
+
+        List<Map<String, Object>> products = new ArrayList<>();
+        Map<String, Object> product = new HashMap<>();
+        product.put("id", "19916");
+        product.put("name", "MODIFIED NAME");
+        products.add(product);
+
+        Map<String, Object> reqOptions = new HashMap<>();
+        reqOptions.put("update", products);
+
+        Map response = wooCommerce.batch(EndpointBaseType.PRODUCTS.getValue(), reqOptions);
+        Assert.assertNotNull(response);
+    }
+
 }

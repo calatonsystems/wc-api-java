@@ -5,7 +5,8 @@ package com.icoderman.woocommerce;
  */
 public enum ApiVersionType {
     V1("v1"),
-    V2("v2");
+    V2("v2"),
+    V3("v3");
 
     private String value;
 

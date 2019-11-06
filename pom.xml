@@ -46,8 +46,8 @@
     </distributionManagement>
 
     <properties>
-        <jackson.version>2.9.8</jackson.version>
-        <httpclient.version>4.5.7</httpclient.version>
+        <jackson.version>2.10.0</jackson.version>
+        <httpclient.version>4.5.10</httpclient.version>
         <junit.version>4.12</junit.version>
     </properties>
 

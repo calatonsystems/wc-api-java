@@ -19,7 +19,7 @@ public class WooCommerceAPI implements WooCommerce {
 
     public WooCommerceAPI(OAuthConfig config, ApiVersionType apiVersion) {
         this.config = config;
-        this.client = new DefaultHttpClient();
+        this.client = new DefaultHttpClient(config.getSslTrusted());
         this.apiVersion = apiVersion.getValue();
     }
 

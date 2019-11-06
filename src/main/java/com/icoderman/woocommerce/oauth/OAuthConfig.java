@@ -5,8 +5,9 @@ public final class OAuthConfig {
     private final String url;
     private final String consumerKey;
     private final String consumerSecret;
-
-    public OAuthConfig(String url, String consumerKey, String consumerSecret) {
+    private final Boolean sslTrusted;
+    
+    public OAuthConfig(String url, String consumerKey, String consumerSecret, Boolean sslTrusted) {
         if (url == null || url.isEmpty() ||
                 consumerKey == null || consumerKey.isEmpty() ||
                 consumerSecret == null || consumerSecret.isEmpty()) {
@@ -15,6 +16,7 @@ public final class OAuthConfig {
         this.url = url;
         this.consumerKey = consumerKey;
         this.consumerSecret = consumerSecret;
+        this.sslTrusted = sslTrusted;
     }
 
     public String getUrl() {
@@ -28,4 +30,8 @@ public final class OAuthConfig {
     public String getConsumerSecret() {
         return consumerSecret;
     }
+
+	public Boolean getSslTrusted() {
+		return sslTrusted;
+	}
 }

@@ -10,7 +10,7 @@ wc-api-java is available on maven central:
     <dependency>
         <groupId>com.icoderman</groupId>
         <artifactId>wc-api-java</artifactId>
-        <version>1.3</version>
+        <version>1.4</version>
     </dependency>
 ```
 
@@ -20,7 +20,7 @@ wc-api-java is available on maven central:
     public static void main(String[] args) {
         // Setup client
         OAuthConfig config = new OAuthConfig("http://woocommerce.com", "consumerKey", "consumerSecret");
-        WooCommerce wooCommerce = new WooCommerceAPI(config, ApiVersionType.V2);
+        WooCommerce wooCommerce = new WooCommerceAPI(config, ApiVersionType.V3);
 
         // Prepare object for request
         Map<String, Object> productInfo = new HashMap<>();

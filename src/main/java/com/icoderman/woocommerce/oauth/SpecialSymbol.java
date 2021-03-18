@@ -9,7 +9,8 @@ public enum SpecialSymbol {
     EQUAL("=", "%3D"),
     PLUS("+", "%2B"),
     STAR("*", "%2A"),
-    TILDE("~", "%7E");
+    TILDE("~", "%7E"),
+    COLON(":", "%3A");
 
     private String plain;
     private String encoded;

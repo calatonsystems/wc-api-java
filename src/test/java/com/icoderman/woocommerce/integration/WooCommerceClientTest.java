@@ -47,6 +47,8 @@ public class WooCommerceClientTest {
         Map<String, String> params = new HashMap<>();
         params.put("per_page","100");
         params.put("offset","0");
+        params.put("after",  "2020-01-01T00:00:00.000Z");
+        params.put("before", "2020-01-15T00:00:00.000Z");
         Object products = wooCommerce.getAll(EndpointBaseType.PRODUCTS.getValue(), params);
         Assert.assertNotNull(products);
     }

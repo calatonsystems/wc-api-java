@@ -38,7 +38,7 @@ public class OAuthSignature {
         authParams.put(OAuthHeader.OAUTH_TIMESTAMP.getValue(), String.valueOf(System.currentTimeMillis() / 1000L));
         authParams.put(OAuthHeader.OAUTH_NONCE.getValue(), UUID.randomUUID().toString());
         authParams.put(OAuthHeader.OAUTH_SIGNATURE_METHOD.getValue(), SIGNATURE_METHOD_HMAC_SHA256);
-        authParams.putAll(params);
+        authParams.putAll(colonEncodeValue(params));
 
         // WooCommerce specified param
         if (HttpMethod.DELETE.equals(httpMethod)) {
@@ -138,5 +138,15 @@ public class OAuthSignature {
 
     private static Map<String, String> getSortedParameters(Map<String, String> parameters) {
         return new TreeMap<>(parameters);
+    }
+
+    private static Map<String, String> colonEncodeValue(Map<String, String> parameter) {
+        Map<String, String> encoded = new HashMap<>();
+
+        for (Map.Entry<String, String> param : parameter.entrySet()) {
+            encoded.put(param.getKey(), param.getValue().replace(SpecialSymbol.COLON.getPlain(), SpecialSymbol.COLON.getEncoded()));
+        }
+
+        return encoded;
     }
 }

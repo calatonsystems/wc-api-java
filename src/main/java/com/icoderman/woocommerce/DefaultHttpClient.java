@@ -1,24 +1,22 @@
 package com.icoderman.woocommerce;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.methods.*;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -94,13 +92,11 @@ public class DefaultHttpClient implements HttpClient {
     }
 
     private Map postEntity(Map<String, Object> objectForJson, HttpEntityEnclosingRequestBase httpPost) {
-        try {
-            HttpEntity entity = new ByteArrayEntity(this.mapper.writeValueAsBytes(objectForJson), ContentType.APPLICATION_JSON);
-            httpPost.setEntity(entity);
-            return getEntityAndReleaseConnection(httpPost, Map.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        Gson gson = new Gson();
+        System.out.println(gson.toJson(objectForJson));
+        HttpEntity entity = new StringEntity(gson.toJson(objectForJson), ContentType.APPLICATION_JSON);
+        httpPost.setEntity(entity);
+        return getEntityAndReleaseConnection(httpPost, Map.class);
     }
 
     private List<NameValuePair> getParametersAsList(Map<String, String> params) {
@@ -117,6 +113,7 @@ public class DefaultHttpClient implements HttpClient {
         try {
             HttpResponse httpResponse = httpClient.execute(httpRequest);
             HttpEntity httpEntity = httpResponse.getEntity();
+
             if (httpEntity == null) {
                 throw new RuntimeException("Error retrieving results from http request");
             }
@@ -129,6 +126,28 @@ public class DefaultHttpClient implements HttpClient {
             throw new RuntimeException(e);
         } finally {
             httpRequest.releaseConnection();
+        }
+    }
+
+    public String InputToString(InputStream in) throws IOException {
+        try {
+            StringBuilder stringBuilder = new StringBuilder();
+            Reader reader = new InputStreamReader(in);
+            int data = reader.read();
+
+
+            while (data != -1) {
+                stringBuilder.append((char) data);
+                data = reader.read();
+            }
+            return stringBuilder.toString();
+        } catch (IOException ex) {
+            try {
+                in.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            throw ex;
         }
     }
 }

@@ -26,7 +26,8 @@ public class WooCommerceClientTest {
 
     @Before
     public void setUp() {
-        wooCommerce = new WooCommerceAPI(new OAuthConfig(WC_URL, CONSUMER_KEY, CONSUMER_SECRET), ApiVersionType.V2);
+        OAuthConfig config = new OAuthConfig(WC_URL, CONSUMER_KEY, CONSUMER_SECRET);
+        wooCommerce = new WooCommerceAPI(config, ApiVersionType.V2);
     }
 
     @Ignore
@@ -35,8 +36,12 @@ public class WooCommerceClientTest {
         Map<String, Object> productInfo = new HashMap<>();
         productInfo.put("name", "Premium Quality");
         productInfo.put("type", "simple");
-        productInfo.put("regular_price", "21.99");
+        productInfo.put("regular_price", "168.06");
+        productInfo.put("downloadable", true);
+        productInfo.put("download_expiry", "30");
+        productInfo.put("virtual", true);
         productInfo.put("description", "Pellentesque habitant morbi tristique senectus et netus");
+
         Map product = wooCommerce.create(EndpointBaseType.PRODUCTS.getValue(), productInfo);
         Assert.assertNotNull(product);
     }

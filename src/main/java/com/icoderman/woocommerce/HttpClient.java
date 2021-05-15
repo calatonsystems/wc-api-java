@@ -1,6 +1,5 @@
 package com.icoderman.woocommerce;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,7 +21,7 @@ public interface HttpClient {
      * @param url url to request
      * @return retrieved result
      */
-    List getAll(String url);
+    Page getAll(String url);
 
     /**
      * Requests url with HTTP POST and retrieves result object as Map

@@ -34,7 +34,7 @@ public interface WooCommerce {
      * @param params additional request params
      * @return List of retrieved entities
      */
-    List getAll(String endpointBase, Map<String, String> params);
+    Page getAll(String endpointBase, Map<String, String> params);
 
     /**
      * Retrieves all WooCommerce entities
@@ -42,7 +42,7 @@ public interface WooCommerce {
      * @param endpointBase API endpoint base @see EndpointBaseType
      * @return List of retrieved entities
      */
-    default List getAll(String endpointBase) {
+    default Page getAll(String endpointBase) {
         return getAll(endpointBase, Collections.emptyMap());
     }
 

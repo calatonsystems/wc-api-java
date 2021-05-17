@@ -1,7 +1,12 @@
 package com.icoderman.woocommerce;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -18,16 +23,15 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class DefaultHttpClient implements HttpClient {
 
     private static final String CONTENT_TYPE = "Content-Type";
     private static final String APPLICATION_JSON = "application/json";
+    private static final String WC_TOTAL_HEADER = "X-WP-Total";
+    private static final String WC_TOTAL_PAGES_HEADER = "X-WP-TotalPages";
 
     private CloseableHttpClient httpClient;
     private ObjectMapper mapper;
@@ -44,9 +48,14 @@ public class DefaultHttpClient implements HttpClient {
     }
 
     @Override
-    public List getAll(String url) {
+    public Page getAll(String url) {
         HttpGet httpGet = new HttpGet(url);
-        return getEntityAndReleaseConnection(httpGet, List.class);
+        Map result = getEntityWithHeaderAndReleaseConnection(httpGet, List.class);
+        List content =  (List) result.get("content");
+        int total = Integer.parseInt(result.get("total").toString());
+        int totalPages = Integer.parseInt(result.get("totalPages").toString());
+        Page page = new Page<>(content, total, totalPages, content.size());
+        return page;
     }
 
     @Override
@@ -123,6 +132,31 @@ public class DefaultHttpClient implements HttpClient {
             Object result = mapper.readValue(httpEntity.getContent(), Object.class);
             if (objectClass.isInstance(result)) {
                 return objectClass.cast(result);
+            }
+            throw new RuntimeException("Can't parse retrieved object: " + result.toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            httpRequest.releaseConnection();
+        }
+    }
+    
+    private <T> Map getEntityWithHeaderAndReleaseConnection(HttpRequestBase httpRequest, Class<T> objectClass) {
+        try {
+            HttpResponse httpResponse = httpClient.execute(httpRequest);
+            HttpEntity httpEntity = httpResponse.getEntity();
+            if (httpEntity == null) {
+                throw new RuntimeException("Error retrieving results from http request");
+            }
+            Object result = mapper.readValue(httpEntity.getContent(), Object.class);
+            if (objectClass.isInstance(result)) {
+            	Map<String, Object> map = new HashMap<>();
+            	if (httpResponse.containsHeader(WC_TOTAL_HEADER)) {
+            		map.put("total", httpResponse.getFirstHeader(WC_TOTAL_HEADER).getValue());
+            		map.put("totalPages", httpResponse.getFirstHeader(WC_TOTAL_PAGES_HEADER).getValue());            		
+            	}
+            	map.put("content", objectClass.cast(result));
+                return map;
             }
             throw new RuntimeException("Can't parse retrieved object: " + result.toString());
         } catch (IOException e) {

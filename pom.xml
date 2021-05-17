@@ -119,23 +119,10 @@
                 </executions>
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.6</version>
-                <configuration>
-                    <useAgent>true</useAgent>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+           <plugin>
+             <groupId>org.simplify4u.plugins</groupId>
+             <artifactId>sign-maven-plugin</artifactId>
+           </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -154,8 +141,17 @@
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
-
         </plugins>
+        
+        <pluginManagement>
+          <plugins>
+          	<plugin>
+              <groupId>org.simplify4u.plugins</groupId>
+              <artifactId>sign-maven-plugin</artifactId>
+              <version>0.3.1</version>
+            </plugin>
+          </plugins>
+        </pluginManagement>
     </build>
 
 </project>

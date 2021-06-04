@@ -47,7 +47,7 @@
 
     <properties>
         <jackson.version>2.10.0</jackson.version>
-        <httpclient.version>4.5.10</httpclient.version>
+        <httpclient.version>4.5.13</httpclient.version>
         <junit.version>4.12</junit.version>
     </properties>
 

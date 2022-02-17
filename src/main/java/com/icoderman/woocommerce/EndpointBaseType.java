@@ -16,6 +16,8 @@ public enum EndpointBaseType {
     REPORTS("reports"),
     REPORTS_SALES("reports/sales"),
     REPORTS_TOP_SELLERS("reports/top_sellers"),
+    SHIPPING_METHODS("shipping_methods"),
+    SHIPPING_ZONES("shipping/zones"),
     TAXES("taxes"),
     TAXES_CLASSES("taxes/classes"),
     WEBHOOKS("webhooks");

@@ -130,6 +130,7 @@ public class OAuthSignature {
                     // OAuth encodes some characters differently:
                     .replace(SpecialSymbol.PLUS.getPlain(), SpecialSymbol.PLUS.getEncoded())
                     .replace(SpecialSymbol.STAR.getPlain(), SpecialSymbol.STAR.getEncoded())
+                    .replace(SpecialSymbol.PERCENT.getPlain(), SpecialSymbol.PERCENT.getEncoded())
                     .replace(SpecialSymbol.TILDE.getEncoded(), SpecialSymbol.TILDE.getPlain());
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e.getMessage(), e);

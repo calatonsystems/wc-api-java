@@ -9,6 +9,7 @@ public enum SpecialSymbol {
     EQUAL("=", "%3D"),
     PLUS("+", "%2B"),
     STAR("*", "%2A"),
+    PERCENT("%", "%25"),
     TILDE("~", "%7E");
 
     private String plain;
